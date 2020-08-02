@@ -30,6 +30,9 @@ dependencies {
 
     // Use the Kotlin JUnit integration.
     testImplementation 'org.jetbrains.kotlin:kotlin-test-junit'
+    // https://mvnrepository.com/artifact/org.luaj/luaj-jse
+    compile group: 'org.luaj', name: 'luaj-jse', version: '3.0.1'
+
 }
 
 // Define the main class for the application.

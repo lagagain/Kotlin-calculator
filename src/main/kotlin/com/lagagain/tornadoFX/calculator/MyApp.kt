@@ -4,12 +4,25 @@
 package com.lagagain.tornadoFX.calculator
 
 import javafx.scene.layout.GridPane
+import javafx.scene.input.MouseEvent
+import javafx.scene.control.Alert
+import javafx.scene.control.Button
 import tornadofx.*
-
+import org.luaj.vm2.*
+import org.luaj.vm2.lib.jse.*
 
 
 class myView : View() {
     override val root : GridPane by fxml("/views/Calculator.fxml")
+
+    fun onNumberClick(e:MouseEvent){
+        println("click")
+        //println(e)
+        var btn = e.getSource() as Button
+        println(btn.getText())
+        alert(Alert.AlertType.INFORMATION, header = "Click Number", content = btn.getText())
+//alert(Alert.AlertType.INFORMATION, "Header", "Content", owner = currentWindow)
+    }
 }
 
 class MyApp: App() {
