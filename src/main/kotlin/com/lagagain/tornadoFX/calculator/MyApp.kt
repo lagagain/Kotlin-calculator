@@ -7,6 +7,7 @@ import javafx.scene.layout.GridPane
 import javafx.scene.input.MouseEvent
 import javafx.scene.control.Alert
 import javafx.scene.control.Button
+import javafx.scene.control.Label
 import tornadofx.*
 import org.luaj.vm2.*
 import org.luaj.vm2.lib.jse.*
@@ -14,14 +15,58 @@ import org.luaj.vm2.lib.jse.*
 
 class myView : View() {
     override val root : GridPane by fxml("/views/Calculator.fxml")
+    var _G = JsePlatform.standardGlobals()
+    var display: Label = root.lookup("#display") as Label
+
+    init {
+        _G.get("require").call(LuaValue.valueOf("/lua/cal"))
+    }
 
     fun onNumberClick(e:MouseEvent){
-        println("click")
+        println("click number")
         //println(e)
         var btn = e.getSource() as Button
         println(btn.getText())
         alert(Alert.AlertType.INFORMATION, header = "Click Number", content = btn.getText())
-//alert(Alert.AlertType.INFORMATION, "Header", "Content", owner = currentWindow)
+        _G.get("on_number_click").call(LuaValue.valueOf(btn.getText()))
+        updateScreen()
+    }
+
+    fun onOpClick(e:MouseEvent){
+        println("click opt")
+        //println(e)
+        var btn = e.getSource() as Button
+        println(btn.getText())
+        alert(Alert.AlertType.INFORMATION, header = "Click Opt", content = btn.getText())
+        _G.get("on_op_click").call(LuaValue.valueOf(btn.getText()));
+        updateScreen()
+    }
+    fun onEQClick(){
+        println("click eq")
+        _G.get("on_EQ_click").call();
+        updateScreen()
+    }
+    fun onACClick(){
+        println("click AC")
+        _G.get("on_AC_click").call();
+        updateScreen()
+    }
+    fun onCClick(){
+        println("click C")
+        _G.get("on_C_click").call();
+        updateScreen()
+    }
+    fun onBackClick(){
+        println("click Back")
+        _G.get("on_back_click").call();
+       updateScreen()
+    }
+    fun updateScreen(){
+        var result = _G.get("input_number");
+        //display.setText(result.toString());
+        print("display: ")
+        println(result.toString())
+        display.setText(result.toString())
     }
 }
 
